@@ -61,7 +61,7 @@ int main(){
   loadMapRelations();
   //vars
   string test;
-  string buffer, buffer2;
+  string buffer, buffer2, buffer3;
   int count = 0; 
   vector<long> temp_vector;
   vector<long> total_vector;
@@ -82,6 +82,7 @@ int main(){
     if(test.at(i) == ','||test.at(i) == '.'){flag=false;}//matching possibles characters besides words/,./
     if(test.at(i) == '-'||test.at(i) == ','||test.at(i) == '.'){test.at(i)=' ';}//replace to find end of the word
     if (test.at(i) == ' ') {//matching end of the word
+
       if(flag == 0 && (temp_vector.size() > 0 || total_vector.size() >0 )) {//printing the words that are numbers
     	total_vector.push_back( suma_all_items(&temp_vector) );
     	long gran_total = suma_all_items(&total_vector);
@@ -90,9 +91,13 @@ int main(){
 	total_vector.resize(0);
 	count=0;
       }
+      if(buffer3.size()>0 && flag == 1 && temp_vector.size() < 1  && total_vector.size() < 1 ){//printing AND a especial word
+	cout<<buffer3<<" ";
+      }
       if(buffer2.size()>0){//printing words that are not numbers
 	cout<<buffer2<<" ";
       }
+      buffer3="";
       buffer="";
       buffer2="";
     } else {    
@@ -102,7 +107,7 @@ int main(){
 	buffer2 = "";
 	flag = true;	
 	if((*it).second == -1) { //AND special
-	  //cout<<"find un AND \n";
+	  buffer3 = "and";
 	} else if((*it).second == 1000000000) { //Billion
 	  total_vector.push_back( suma_all_items(&temp_vector) * BILLION );
 	  temp_vector.resize(0);
