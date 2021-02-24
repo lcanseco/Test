@@ -1,9 +1,9 @@
-/*
-Write an executable that converts written numbers in words to digits in the middle of a paragraph
-Examples:
--If the input is ‘one hundred and one’, the output should be ‘101’
--If the input is ‘I have one hundred apples’ the output should be ‘I have 100 apples’
+/* Write an executable that converts written numbers in words to digits in the middle of a paragraph
+ Examples:
+ If the input is ‘one hundred and one’, the output should be ‘101’
+ If the input is ‘I have one hundred apples’ the output should be ‘I have 100 apples’
 */
+
 #include <iostream>
 #include <string>
 #include <map>
@@ -23,7 +23,7 @@ map<string, int> reference;
 string ones[] = {"one","two","three","four","five","six","seven","eight","nine"};
 string teens[]={"Eleven","Twelve","Thirteen","Fourteen","Fifteen","Sixteen","Seventeen","Eighteen","Nineteen"};
 string tens[]={"Ten","Twenty","Thirty","Fourty","Fifty","Sixty","Seventy","Eighty","Ninety"};
-
+//filling the map table
 void loadMapRelations()
 {
   for(int i = 1; i < 10; i++){
@@ -46,8 +46,7 @@ void loadMapRelations()
   reference["BILLION"] = 1000000000;
 }
 
-
-
+//all vectors elements are are added
 long suma_all_items(vector<long> *temp) {
   long tot =0;
 
@@ -57,8 +56,7 @@ long suma_all_items(vector<long> *temp) {
   return tot;
 }
 
-int main(){
-  
+int main(){  
   //set up
   loadMapRelations();
   //vars
@@ -68,22 +66,23 @@ int main(){
   vector<long> temp_vector;
   vector<long> total_vector;
   bool flag = false;
-  //get text
+  //get interactive text
   cout << "Enter a text: ";
   getline (cin,test);
 
-  cout<<"Texto resultante:\n";
+  cout<<"Resulting text:\n";
   test.append(" ");
   
   int length_test = test.length();
+  //reading the input line by chars
   for(int i = 0; i < length_test; i++){
-    if( i+1 == length_test){
+    if( i+1 == length_test){//reaching end of line
       flag=false;
     }
-    if(test.at(i) == ','||test.at(i) == '.'){flag=false;}
-    if(test.at(i) == '-'||test.at(i) == ','||test.at(i) == '.'){test.at(i)=' ';}
-    if (test.at(i) == ' ') {
-      if(flag == 0 && (temp_vector.size() > 0 || total_vector.size() >0 )) {
+    if(test.at(i) == ','||test.at(i) == '.'){flag=false;}//matching possibles characters besides words/,./
+    if(test.at(i) == '-'||test.at(i) == ','||test.at(i) == '.'){test.at(i)=' ';}//replace to find end of the word
+    if (test.at(i) == ' ') {//matching end of the word
+      if(flag == 0 && (temp_vector.size() > 0 || total_vector.size() >0 )) {//printing the words that are numbers
     	total_vector.push_back( suma_all_items(&temp_vector) );
     	long gran_total = suma_all_items(&total_vector);
     	cout<<gran_total<<" ";
@@ -91,7 +90,7 @@ int main(){
 	total_vector.resize(0);
 	count=0;
       }
-      if(buffer2.size()>0){
+      if(buffer2.size()>0){//printing words that are not numbers
 	cout<<buffer2<<" ";
       }
       buffer="";
@@ -99,7 +98,7 @@ int main(){
     } else {    
       buffer.push_back(toupper(test.at(i)));
       map<string, int>::iterator it = reference.find(buffer);
-      if(it != reference.end() && (test.at(i+1) == ' ' || test.at(i+1) == '-'||test.at(i+1) == ','||test.at(i+1) == '.')){//match
+      if(it != reference.end() && (test.at(i+1) == ' ' || test.at(i+1) == '-'||test.at(i+1) == ','||test.at(i+1) == '.')){//matching words that are numbers
 	buffer2 = "";
 	flag = true;	
 	if((*it).second == -1) { //AND special
@@ -124,7 +123,7 @@ int main(){
 	}
 	buffer = "";
       } else {
-	buffer2.push_back(test.at(i));
+	buffer2.push_back(test.at(i));//storing words that are not numbers
 	flag=false;
       }
     
