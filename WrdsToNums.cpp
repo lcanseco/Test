@@ -1,9 +1,8 @@
 /*
-● Write an executable that converts written numbers in words to digits in the middle of a paragraph
-○ Examples
-■ If the input is ‘one hundred and one’, the output should be ‘101’
-■ If the input is ‘I have one hundred apples’ the output should be ‘I have 100
-apples’
+Write an executable that converts written numbers in words to digits in the middle of a paragraph
+Examples:
+-If the input is ‘one hundred and one’, the output should be ‘101’
+-If the input is ‘I have one hundred apples’ the output should be ‘I have 100 apples’
 */
 #include <iostream>
 #include <string>
@@ -81,7 +80,8 @@ int main(){
     if( i+1 == length_test){
       flag=false;
     }
-    if(test.at(i) == '-'){test.at(i)=' ';}
+    if(test.at(i) == ','||test.at(i) == '.'){flag=false;}
+    if(test.at(i) == '-'||test.at(i) == ','||test.at(i) == '.'){test.at(i)=' ';}
     if (test.at(i) == ' ') {
       if(flag == 0 && (temp_vector.size() > 0 || total_vector.size() >0 )) {
     	total_vector.push_back( suma_all_items(&temp_vector) );
@@ -99,7 +99,7 @@ int main(){
     } else {    
       buffer.push_back(toupper(test.at(i)));
       map<string, int>::iterator it = reference.find(buffer);
-      if(it != reference.end() && (test.at(i+1) == ' ' || test.at(i+1) == '-')){//match
+      if(it != reference.end() && (test.at(i+1) == ' ' || test.at(i+1) == '-'||test.at(i+1) == ','||test.at(i+1) == '.')){//match
 	buffer2 = "";
 	flag = true;	
 	if((*it).second == -1) { //AND special
